@@ -4,13 +4,33 @@ public class SQLite {
     public static void main(String[] args) throws ClassNotFoundException, SQLException{
         conn.Conn();
         conn.CreateDB();
-
-        conn.ReadDB();
+        //conn.WriteDB(); Если нужно поменять или добавить значения в таблице.
+        conn.SampleRequest();
+        conn.GroupRequest();
+        conn.SelectQueryWithParameter();
         conn.CloseDB();
     }
 }
 
-class conn {
+interface SampleRequestIF{
+    static void SampleRequest(){
+        //Тело интерфейса запроса на выборку.
+    }
+}
+
+interface GroupRequestIF{
+    static void GroupRequest(){
+        //Тело интерфейса группового запроса.
+    }
+}
+
+interface SelectQueryWithParameterIF{
+    static void SelectQueryWithParameter(){
+        //Тело интерфейса запроса на выборку с параметром.
+    }
+}
+
+class conn implements SampleRequestIF, GroupRequestIF, SelectQueryWithParameterIF{
     public static Connection conn;
     public static Statement statmt;
     public static ResultSet resSet;
@@ -47,15 +67,13 @@ class conn {
     }
 
     // -------- Вывод таблицы--------
-    public static void ReadDB() throws SQLException
-    {
+    public static void SampleRequest() throws SQLException {
         resSet = statmt.executeQuery("SELECT Название, Сайт FROM Школы");
 
         System.out.println("Выполняю запрос!");
         System.out.println();
 
-        while(resSet.next())
-        {
+        while (resSet.next()) {
             String Name = resSet.getString("Название");
             String Website = resSet.getString("Сайт");
             System.out.print("Название: " + Name + " ");
@@ -72,8 +90,7 @@ class conn {
         System.out.println("Выполняю запрос!");
         System.out.println();
 
-        while(resSet.next())
-        {
+        while (resSet.next()) {
             String Supervisor = resSet.getString("Руководитель");
             System.out.print("Руководитель: " + Supervisor + " ");
             System.out.println();
@@ -82,15 +99,16 @@ class conn {
         System.out.println();
         System.out.println("Запрос выполнен!");
         System.out.println();
+    }
 
+    public static void GroupRequest() throws SQLException {
         resSet = statmt.executeQuery("SELECT Название, Телефон, Код AS Номер_в_списке FROM Школы " +
                 "GROUP BY Название");
 
         System.out.println("Выполняю запрос!");
         System.out.println();
 
-        while(resSet.next())
-        {
+        while (resSet.next()) {
             String Name = resSet.getString("Название");
             int Id = resSet.getInt("Номер_в_списке");
             String Telephone = resSet.getString("Телефон");
@@ -110,8 +128,7 @@ class conn {
         System.out.println("Выполняю запрос!");
         System.out.println();
 
-        while(resSet.next())
-        {
+        while (resSet.next()) {
             String Name = resSet.getString("Название");
             int Id = resSet.getInt("Номер_в_списке");
             String Address = resSet.getString("Адрес");
@@ -124,7 +141,9 @@ class conn {
         System.out.println();
         System.out.println("Запрос выполнен!");
         System.out.println();
+    }
 
+    public static void SelectQueryWithParameter() throws SQLException {
         resSet = statmt.executeQuery("SELECT * FROM Школы " +
                 "WHERE Код > 20");
 
