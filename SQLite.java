@@ -62,7 +62,7 @@ class TextFieldTest extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException{
+    public static void main(String[] args){
         new TextFieldTest();
     }
 }
@@ -93,9 +93,17 @@ class Admin implements SampleRequestIF, GroupRequestIF, SelectQueryWithParameter
     // --------ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ--------
     public static void Conn() throws ClassNotFoundException, SQLException
     {
+        Scanner sc = new Scanner(System.in);
+
         conn = null;
         Class.forName("org.sqlite.JDBC");
-        conn = DriverManager.getConnection("jdbc:sqlite:D:\\Programs\\SQLite\\Лабораторная_№7.s3db");
+
+        System.out.println();
+        System.out.println("Введите расположение базы данных!");
+
+        String url = sc.nextLine();
+
+        conn = DriverManager.getConnection("jdbc:sqlite:" + url);
 
         System.out.println();
         System.out.println("База данных подключена!");
@@ -288,9 +296,17 @@ class User implements SampleRequestIF, GroupRequestIF, SelectQueryWithParameterI
     // --------ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ--------
     public static void Conn() throws ClassNotFoundException, SQLException
     {
+        Scanner sc = new Scanner(System.in);
+
         conn = null;
         Class.forName("org.sqlite.JDBC");
-        conn = DriverManager.getConnection("jdbc:sqlite:D:\\Programs\\SQLite\\Лабораторная_№7.s3db");
+
+        System.out.println();
+        System.out.println("Введите расположение базы данных!");
+
+        String url = sc.nextLine();
+
+        conn = DriverManager.getConnection("jdbc:sqlite:" + url);
 
         System.out.println();
         System.out.println("База данных подключена!");
