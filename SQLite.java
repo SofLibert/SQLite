@@ -1,3 +1,12 @@
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.sql.*;
 import java.util.Scanner;
 import javax.swing.*;
@@ -64,6 +73,33 @@ class TextFieldTest extends JFrame {
 
     public static void main(String[] args){
         new TextFieldTest();
+
+        try {
+            File fXmlFile = new File("Школы.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
+            NodeList nList = doc.getElementsByTagName("Школы");
+            System.out.println();
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                {
+                    Element eElement = (Element) nNode;
+                    System.out.println("Код: " + eElement.getElementsByTagName("Код").item(0).getTextContent());
+                    System.out.println("Название: " + eElement.getElementsByTagName("Полное_x0020_наименование_x0020_организации").item(0).getTextContent());
+                    System.out.println("Адрес: " + eElement.getElementsByTagName("Адрес").item(0).getTextContent());
+                    System.out.println("Телефон: " + eElement.getElementsByTagName("Телефон").item(0).getTextContent());
+                    System.out.println("Руководитель: " + eElement.getElementsByTagName("Руководитель").item(0).getTextContent());
+                    System.out.println("Сайт: " + eElement.getElementsByTagName("Сайт").item(0).getTextContent());
+                    System.out.println("E-mail: " + eElement.getElementsByTagName("E-mail").item(0).getTextContent());
+                    System.out.println();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
 
@@ -99,7 +135,7 @@ class Admin implements SampleRequestIF, GroupRequestIF, SelectQueryWithParameter
         Class.forName("org.sqlite.JDBC");
 
         System.out.println();
-        System.out.println("Введите расположение базы данных!");
+        System.out.println("Введите расположение базы данных!"); //C:\Users\Kirill\IdeaProjects\SQLite\Лабораторная_№7.s3db
 
         String url = sc.nextLine();
 
